@@ -9,53 +9,53 @@ import { SignupBody, LoginBody, User } from '../../utils/types';
 const SALT_ROUNDS = 10;
 
 // POST /api/auth/signup
-// export const signup = async (
-//   req: Request<object, object, SignupBody>,
-//   res: Response,
-//   next: NextFunction
-// ): Promise<void> => {
-//   try {
-//     const { name, email, password, role } = req.body;
+export const signup = async (
+  req: Request<object, object, SignupBody>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { name, email, password, role } = req.body;
 
-//     // Validate required fields
-//     if (!name || !email || !password) {
-//       sendError(res, StatusCodes.BAD_REQUEST, 'name, email, and password are required.');
-//       return;
-//     }
+    // Validate required fields
+    if (!name || !email || !password) {
+      sendError(res, StatusCodes.BAD_REQUEST, 'name, email, and password are required.');
+      return;
+    }
 
-//     // Validate role value
-//     const userRole = role || 'contributor';
-//     if (!['contributor', 'maintainer'].includes(userRole)) {
-//       sendError(res, StatusCodes.BAD_REQUEST, 'role must be contributor or maintainer.');
-//       return;
-//     }
+    // Validate role value
+    const userRole = role || 'contributor';
+    if (!['contributor', 'maintainer'].includes(userRole)) {
+      sendError(res, StatusCodes.BAD_REQUEST, 'role must be contributor or maintainer.');
+      return;
+    }
 
-//     // Check if email is already taken
-//     const existingUser = await pool.query(
-//       'SELECT id FROM users WHERE email = $1',
-//       [email]
-//     );
-//     if ((existingUser.rowCount ?? 0) > 0) {
-//       sendError(res, StatusCodes.BAD_REQUEST, 'Email is already registered.');
-//       return;
-//     }
+    // Check if email is already taken
+    const existingUser = await pool.query(
+      'SELECT id FROM users WHERE email = $1',
+      [email]
+    );
+    if ((existingUser.rowCount ?? 0) > 0) {
+      sendError(res, StatusCodes.BAD_REQUEST, 'Email is already registered.');
+      return;
+    }
 
-//     // Hash password before saving
-//     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    // Hash password before saving
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-//     // Insert new user
-//     const result = await pool.query(
-//       `INSERT INTO users (name, email, password, role)
-//        VALUES ($1, $2, $3, $4)
-//        RETURNING id, name, email, role, created_at, updated_at`,
-//       [name, email, hashedPassword, userRole]
-//     );
+    // Insert new user
+    const result = await pool.query(
+      `INSERT INTO users (name, email, password, role)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, name, email, role, created_at, updated_at`,
+      [name, email, hashedPassword, userRole]
+    );
 
-//     sendSuccess(res, StatusCodes.CREATED, 'User registered successfully', result.rows[0]);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    sendSuccess(res, StatusCodes.CREATED, 'User registered successfully', result.rows[0]);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // POST /api/auth/login
 export const login = async (
