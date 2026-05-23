@@ -3,7 +3,7 @@
 A collaborative platform for software teams to report bugs, suggest features, and coordinate resolutions.
 
 ## Live URL
-https://devpulse-api.vercel.app
+https://devpulse-navy.vercel.app/
 
 ## Features
 - JWT-based authentication
@@ -21,8 +21,7 @@ https://devpulse-api.vercel.app
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/yourusername/devpulse.git
-cd devpulse
+git clone https://github.com/hkrobinbrother/devpulse.git
 ```
 
 ### 2. Install dependencies
